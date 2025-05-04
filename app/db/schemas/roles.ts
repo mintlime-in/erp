@@ -1,6 +1,8 @@
-import { pgTable, serial, text, date, unique } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, date, unique, PgSchema } from 'drizzle-orm/pg-core';
 
-export const rolesTable = pgTable('roles', {
+export const crp = new PgSchema("erp");
+
+export const rolesTable = crp.table('roles', {
   id: serial('id').primaryKey(),
   email: text('email').notNull(),
   role: text('role').notNull(),

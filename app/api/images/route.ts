@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     const name = request.nextUrl.searchParams.get('name')
     try {
-        const result = await pool.query("SELECT data FROM images WHERE name = $1", [name]);
+        const result = await pool.query("SELECT data FROM erp.images WHERE name = $1", [name]);
 
         if (result.rows.length === 0) {
             return NextResponse.json({ error: "Image not found" }, { status: 404 });

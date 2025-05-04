@@ -27,21 +27,18 @@ jobs:
       - name: Build and push
         run: |
           docker buildx build --push --platform linux/amd64 -t mintlimes/c-erp:${{ inputs.tag }} .
-      # - name: Create Release
-      #   uses: actions/create-release@latest
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.KESHORE_SA_FULLACCESS }}
-      #   with:
-      #     tag_name: ${{ inputs.tag }}
-      # - name: Deploy SRMVCAS
-      #   env:
-      #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-      #   run: |
-      #     echo "$KUBE_CONFIG" | base64 -d > /tmp/config
-      #     export KUBECONFIG=/tmp/config
-      #     helm \
-      #     upgrade --install erp \
-      #     --set image.tag=${{ inputs.tag }} \
-      #     --debug \
-      #     -n erp --create-namespace \
-      #     ./helm/erp
+      - name: Deploy SRMVCAS
+        env:
+          RELEASE: erp
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          URL: erp.srmvcas.org
+          DB_HOST: postgres.postgres
+          DB_PORT: "5432"
+          DB_USERNAME: crp
+          DB_PASSWORD: ${{ secrets.SRMVCAS_DB_PASSWORD }}
+          DB_DB: crp
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          IMAGE_TAG: ${{ inputs.tag }}
+        run: deploy.sh

@@ -1,4 +1,4 @@
-import { pgTable, serial, text, date, customType } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, date, customType, PgSchema } from 'drizzle-orm/pg-core';
 
 const customByteA = customType<{ data: Array<number> }>({
   dataType() {
@@ -6,7 +6,9 @@ const customByteA = customType<{ data: Array<number> }>({
   },
 });
 
-export const imagesTable = pgTable('images', {
+const crp = new PgSchema("erp");
+
+export const imagesTable = crp.table('images', {
   id: serial('id').primaryKey(),
   name: text('name').notNull().unique(),
   data: customByteA('data').notNull(),

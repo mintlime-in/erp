@@ -1,12 +1,12 @@
 {
-  "id": "9e4432c5-33ec-4a6c-bdce-eb73ccb41467",
+  "id": "05d53e00-cf5f-4da4-a73e-55140d286cf9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.images": {
+    "erp.images": {
       "name": "images",
-      "schema": "",
+      "schema": "erp",
       "columns": {
         "id": {
           "name": "id",
@@ -50,9 +50,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.roles": {
+    "erp.roles": {
       "name": "roles",
-      "schema": "",
+      "schema": "erp",
       "columns": {
         "id": {
           "name": "id",
@@ -99,7 +99,9 @@
     }
   },
   "enums": {},
-  "schemas": {},
+  "schemas": {
+    "erp": "erp"
+  },
   "sequences": {},
   "roles": {},
   "policies": {},
