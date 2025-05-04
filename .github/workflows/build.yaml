@@ -27,7 +27,7 @@ jobs:
       - name: Build and push
         run: |
           docker buildx build --push --platform linux/amd64 -t mintlimes/c-erp:${{ inputs.tag }} .
-      - name: Deploy SRMVCAS
+      - name: Deploy ERP
         env:
           RELEASE: erp
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
@@ -41,4 +41,5 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           IMAGE_TAG: ${{ inputs.tag }}
-        run: deploy.sh
+        run: |
+          bash deploy.sh
