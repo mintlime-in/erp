@@ -1,12 +1,10 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { dbCredentials } from "../drizzle.config";
 import { Pool } from 'pg';
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: parseInt((process.env.DB_PORT) as string),
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DB,
+export const db = drizzle({
+  client: new Pool(dbCredentials),
+  logger: true,
 });
 
-export default drizzle(pool);
+

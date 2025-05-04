@@ -1,8 +1,15 @@
-import { Button } from "@chakra-ui/react";
-import Image from "next/image";
+"use client";
+
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  return (
-    <><p>jj</p><Button size="xs">Button</Button></>
-  );
+  const session = useSession();
+  if (session.status === "authenticated") {
+    return (
+      <>
+        <h1>Welcome {session.data?.user?.name}</h1>
+      </>
+    );
+  }
+  return "";
 }
