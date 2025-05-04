@@ -27,12 +27,12 @@ jobs:
       - name: Build and push
         run: |
           docker buildx build --push --platform linux/amd64 -t mintlimes/c-erp:${{ inputs.tag }} .
-      - name: Create Release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.KESHORE_SA_FULLACCESS }}
-        with:
-          tag_name: ${{ inputs.tag }}
+      # - name: Create Release
+      #   uses: actions/create-release@latest
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.KESHORE_SA_FULLACCESS }}
+      #   with:
+      #     tag_name: ${{ inputs.tag }}
       # - name: Deploy SRMVCAS
       #   env:
       #     KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
