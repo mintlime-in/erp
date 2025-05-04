@@ -7,10 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit push",
-    "migrate:reset": "drizzle-kit reset",
-    "migrate:rollback": "drizzle-kit rollback"
+    "generate": "drizzle-kit generate --config=app/db/drizzle.config.ts",
+    "migrate": "drizzle-kit push --config=app/db/drizzle.config.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.17.0",

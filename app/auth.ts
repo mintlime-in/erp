@@ -1,5 +1,5 @@
-import { db } from "@/db/drizzle";
-import { rolesTable } from "@/db/schemas/roles";
+import { db } from "@/app/db/drizzle";
+import { rolesTable } from "@/app/db/schemas/roles";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
@@ -18,7 +18,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         strategy: "jwt"
     },
     theme: {
-        logo: "/favicon.ico",
+        colorScheme: "dark",
+        logo: "/api/images?name=logo-min.png",
     },
     providers: [
         GoogleProvider({
@@ -29,7 +30,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         async session({ session, token }) {
             session.roles = await getRoles(session.user.email)
-            console.log("sessionasdasdasdasd", session, token)
             return session
         },
         redirect({ url, baseUrl }) {

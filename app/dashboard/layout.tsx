@@ -1,11 +1,30 @@
+"use client";
+
+import { Box, Flex, Stack } from "@chakra-ui/react";
+import {
+  ColorModeButton,
+  useColorModeValue,
+} from "../components/ui/color-mode";
+
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-auto">{children}</div>
-    </div>
+    <>
+      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+          <Box>Logo</Box>
+
+          <Flex alignItems={"center"}>
+            <Stack direction={"row"} spaceX={7}>
+              <ColorModeButton />
+            </Stack>
+          </Flex>
+        </Flex>
+      </Box>
+      {children}
+    </>
   );
 }

@@ -1,5 +1,3 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
 import { defineConfig } from "drizzle-kit";
 
 export const dbCredentials = {
@@ -12,8 +10,8 @@ export const dbCredentials = {
 }
 
 export default defineConfig({
-    schema: "./db/schemas",
-    out: "./db/migrations",
+    schema: "app/db/schemas",
+    out: "app/db/migrations",
     dialect: "postgresql",
     dbCredentials: dbCredentials,
 });
