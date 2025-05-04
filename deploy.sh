@@ -6,6 +6,7 @@ helm \
     --set image.tag=${IMAGE_TAG} \
     --set ingress.hosts[0].host=${URL} \
     --set ingress.tls[0].hosts[0]=${URL} \
+    --set ingress.tls[0].secretName=${RELEASE}-tls \
     --set ingress.hosts[0].paths[0].path="/" \
     --set ingress.hosts[0].paths[0].pathType=ImplementationSpecific \
     --set-string=env[0].name=DB_HOST \

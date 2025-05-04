@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     try {
         const buffer = Buffer.from(await image.arrayBuffer());
 
-        await pool.query("INSERT INTO images (name, data) VALUES ($1, $2)", [name, buffer]);
+        await pool.query("INSERT INTO erp.images (name, data) VALUES ($1, $2)", [name, buffer]);
 
         return NextResponse.json({ info: "Image uploaded successfully" }, { status: 201 });
     } catch (error) {
