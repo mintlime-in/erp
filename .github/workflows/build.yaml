@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Build and push
         run: |
-          docker buildx build --push --platform linux/amd64 -t mintlimes/c-erp:${{ inputs.tag }} .
+          docker buildx build --push --platform linux/amd64 -t mintlimes/c-erp:${{ inputs.tag || 'ci' }} .
       - name: Deploy ERP
         env:
           RELEASE: erp
@@ -43,6 +43,6 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          IMAGE_TAG: ${{ inputs.tag }}
+          IMAGE_TAG: ${{ inputs.tag || 'ci' }}
         run: |
           bash deploy.sh
