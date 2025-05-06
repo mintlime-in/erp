@@ -10,6 +10,9 @@ export const dbCredentials = {
 }
 
 export default defineConfig({
+    migrations: {
+        schema: "drizzle"
+    },
     schema: "app/db/schemas",
     out: "app/db/migrations",
     dialect: "postgresql",
