@@ -1,5 +1,5 @@
 {
-  "id": "8f266876-a690-4232-a4a1-81aa00fde012",
+  "id": "b9a190c7-f301-46b7-b336-226aa67f4cb1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -28,7 +28,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
@@ -50,8 +50,110 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "erp.permissions": {
+      "name": "permissions",
+      "schema": "erp",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "permission": {
+          "name": "permission",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "permissions_permission_unique": {
+          "name": "permissions_permission_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "permission"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "erp.roles": {
       "name": "roles",
+      "schema": "erp",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "permission": {
+          "name": "permission",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "roles_permission_permissions_permission_fk": {
+          "name": "roles_permission_permissions_permission_fk",
+          "tableFrom": "roles",
+          "tableTo": "permissions",
+          "schemaTo": "erp",
+          "columnsFrom": [
+            "permission"
+          ],
+          "columnsTo": [
+            "permission"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "roles_role_permission_unique": {
+          "name": "roles_role_permission_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "role",
+            "permission"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "erp.user_roles": {
+      "name": "user_roles",
       "schema": "erp",
       "columns": {
         "id": {
@@ -74,7 +176,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
@@ -82,9 +184,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "roles_email_users_email_fk": {
-          "name": "roles_email_users_email_fk",
-          "tableFrom": "roles",
+        "user_roles_email_users_email_fk": {
+          "name": "user_roles_email_users_email_fk",
+          "tableFrom": "user_roles",
           "tableTo": "users",
           "schemaTo": "erp",
           "columnsFrom": [
@@ -99,8 +201,8 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "roles_email_role_unique": {
-          "name": "roles_email_role_unique",
+        "user_roles_email_role_unique": {
+          "name": "user_roles_email_role_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email",
@@ -136,7 +238,7 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
           "default": "now()"

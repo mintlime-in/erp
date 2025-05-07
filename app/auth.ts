@@ -1,12 +1,14 @@
 import { db } from "@/app/db/drizzle";
-import { rolesInErp } from "@/app/db/schemas/erp";
-import { eq } from "drizzle-orm";
+import { rolesInErp, userRolesInErp } from "@/app/db/schemas/erp";
+import { eq, inArray } from "drizzle-orm";
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 
-const getRoles = async (email: string) => {
-    return (await db.select().from(rolesInErp).where(eq(rolesInErp.email, email)).execute()).map((role) => role.role)
+const getRolesAndPermissions = async (email: string) => {
+    let roles = (await db.select().from(userRolesInErp).where(eq(userRolesInErp.email, email)).execute()).map((role) => role.role)
+    let permissions = (await db.select().from(rolesInErp).where(inArray(rolesInErp.role, roles)).execute()).map(d => d.permission)
+    return { roles, permissions }
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -35,7 +37,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     ],
     callbacks: {
         async session({ session, token }) {
-            session.roles = await getRoles(session.user.email)
+            let { roles, permissions } = await getRolesAndPermissions(session.user.email)
+            session.roles = roles
+            session.permissions = permissions
             return session
         },
         redirect({ url, baseUrl }) {
@@ -47,5 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 declare module "next-auth" {
     interface Session {
         roles: string[];
+        permissions: string[]
     }
 }
