@@ -23,9 +23,9 @@ export default function Dashboard() {
     <>
       <p>Dashboard</p>
 
-      <div style={{ height: 500 }}>
+      {/* <div style={{ height: 500 }}>
         <AgGridReact rowData={rowData} columnDefs={colDefs} />
-      </div>
+      </div> */}
     </>
   );
 }
