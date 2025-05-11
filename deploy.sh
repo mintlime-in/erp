@@ -27,6 +27,10 @@ helm \
     --set-string=env[7].value="${NEXTAUTH_SECRET}" \
     --set-string=env[8].name=AUTH_URL \
     --set-string=env[8].value="https://${URL}" \
+    --set-string=env[9].name=ADMIN_EMAIL \
+    --set-string=env[9].value="${ADMIN_EMAIL}" \
+    --set-string=env[10].name=ADMIN_PASSWORD \
+    --set-string=env[10].value="${ADMIN_PASSWORD}" \
     --debug \
     -n ${RELEASE} --create-namespace \
     ./helm
