@@ -45,6 +45,7 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          TITLE: "SRMVCAS"
           IMAGE_TAG: ${{ inputs.tag || 'ci' }}
         run: |
           bash deploy.sh

@@ -4,19 +4,21 @@ import { NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
 
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-    if (!token)
-        return NextResponse.redirect(new URL("/api/auth/signin", request.url));
-
-    // const userid = token.userid as string;
-    const roles = token.roles as string[];
-    // const permissions = token.permissions as string[];
-
-    if (!isAuthorized(request.nextUrl.pathname, roles)) {
-        return NextResponse.redirect(new URL("/unauthorized", request.url));
-    }
-
     return NextResponse.next()
+
+    // const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    // if (!token)
+    //     return NextResponse.redirect(new URL("/api/auth/signin", request.url));
+
+    // // const userid = token.userid as string;
+    // const roles = token.roles as string[];
+    // // const permissions = token.permissions as string[];
+
+    // if (!isAuthorized(request.nextUrl.pathname, roles)) {
+    //     return NextResponse.redirect(new URL("/unauthorized", request.url));
+    // }
+
+    // return NextResponse.next()
 }
 
 const isAuthorized = (route: string, roles: string[]) => {
