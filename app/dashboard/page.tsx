@@ -54,8 +54,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <p>Dashboard</p>
-
       <AgGridReact
         gridOptions={gridOptions}
         theme={themeQuartz.withPart(

@@ -1,6 +1,6 @@
 {
-  "id": "abd43bf7-c2e4-46e2-bb9a-d8e230d52d90",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "a27b985b-56a0-4a3b-85fa-114e2fd58cf1",
+  "prevId": "abd43bf7-c2e4-46e2-bb9a-d8e230d52d90",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -207,6 +207,68 @@
           "columns": [
             "userid",
             "role"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "erp.user_settings": {
+      "name": "user_settings",
+      "schema": "erp",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "settings": {
+          "name": "settings",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_settings_userid_users_userid_fk": {
+          "name": "user_settings_userid_users_userid_fk",
+          "tableFrom": "user_settings",
+          "tableTo": "users",
+          "schemaTo": "erp",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_settings_userid_settings_unique": {
+          "name": "user_settings_userid_settings_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "userid",
+            "settings"
           ]
         }
       },

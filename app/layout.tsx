@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CRP",
+  title: process.env.TITLE,
   description: "Campus Resource Planning",
   icons: {
     icon: "/api/images?name=logo-min.png",
@@ -29,15 +29,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-  if (!session) redirect("/api/auth/signin");
+  // const session = await auth();
+  // if (!session) redirect("/api/auth/signin");
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider>{children}</SessionProvider>
         </Provider>
       </body>
     </html>
