@@ -1,4 +1,4 @@
-import { auth } from "@/app/auth";
+import { auth } from "@/app/api/auth/auth";
 import { db } from "@/app/db/drizzle";
 import { NextRequest, NextResponse } from "next/server";
 import { resourcesMap, getResource } from "../resourceTypes";

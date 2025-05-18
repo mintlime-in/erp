@@ -1,9 +1,7 @@
-import { auth } from "@/app/auth";
 import { Provider } from "@/app/components/ui/provider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { redirect } from "next/navigation";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,9 +17,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: process.env.TITLE,
   description: "Campus Resource Planning",
-  icons: {
-    icon: "/api/images?name=logo-min.png",
-  },
 };
 
 export default async function RootLayout({
@@ -29,8 +24,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await auth();
-  // if (!session) redirect("/api/auth/signin");
   return (
     <html lang="en" suppressHydrationWarning>
       <body

@@ -11,18 +11,28 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { RefObject, useRef } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { navList } from "../routes";
 import { useSession } from "next-auth/react";
 
 export default function SideBar() {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [title, setTitle] = useState<string>("");
+  useEffect(() => {
+    fetch("/api/info").then((res) => {
+      if (res.ok) {
+        res.json().then((data) => {
+          setTitle(data.title);
+        });
+      }
+    });
+  }, []);
 
   return (
     <Drawer.Root placement="start">
       <Drawer.Trigger asChild>
-        <IconButton variant="ghost" color="white">
+        <IconButton variant="ghost">
           <FiMenu />
         </IconButton>
       </Drawer.Trigger>
@@ -32,9 +42,9 @@ export default function SideBar() {
             <Drawer.Header>
               <Drawer.Title>
                 <HStack gap="5">
-                  <Image src="/api/images?name=logo-min.png" height="60px" />
+                  <Image src="/api/images/logo-min.png" height="60px" />
                   <Text fontSize="xl" color={"white"}>
-                    SRMVCAS
+                    {title}
                   </Text>
                 </HStack>
               </Drawer.Title>

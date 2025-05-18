@@ -11,8 +11,7 @@ async function getUser(email: string) {
     const user = await db.select().from(usersInErp).where(eq(usersInErp.email, email)).execute()
     const userId = user[0]?.userid;
     let roles = (await db.select().from(userRolesInErp).where(eq(userRolesInErp.userid, userId)).execute()).map((role) => role.role)
-    let permissions = (await db.select().from(rolesInErp).where(inArray(rolesInErp.role, roles)).execute()).map(d => d.permission)
-    return { userId, roles, permissions }
+    return { userId, roles }
 }
 
 export function clientSignIn() {
@@ -34,7 +33,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     theme: {
         colorScheme: "dark",
-        logo: "/api/images?name=logo-min.png",
     },
     providers: [
         Credentials({
@@ -58,10 +56,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         name: "ADMIN",
                         email: process.env.ADMIN_EMAIL,
                         roles: ["admin"],
-                        permissions: ["*"]
                     }
                 }
-                throw new Error("Invalid credentials.")
+                return null
             }
         }),
         GoogleProvider({
@@ -75,8 +72,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     name: profile.name,
                     email: profile.email,
                     image: profile.picture,
-                    roles: user.roles,
-                    permissions: user.permissions
+                    roles: user.roles
                 }
             }
         }),
@@ -92,8 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     name: profile.name,
                     email: profile.email,
                     image: profile.picture,
-                    roles: user.roles,
-                    permissions: user.permissions
+                    roles: user.roles
                 }
             }
         }),
@@ -101,14 +96,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         async session({ session, token }) {
             session.user.roles = token.roles as string[]; // Make role available in session
-            session.user.permissions = token.permissions as string[];
             session.user.userid = token.userid as string;
             return session;
         },
         async jwt({ token, user }) {
             if (user) {
                 token.roles = user.roles; // Store role in token
-                token.permissions = user.permissions;
                 token.userid = user.userid;
             }
             return token;
@@ -134,7 +127,6 @@ declare module "next-auth" {
             userid?: string;
             id?: string;
             roles?: string[];
-            permissions?: string[];
         } & DefaultSession["user"];
     }
 }

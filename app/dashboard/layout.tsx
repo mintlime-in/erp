@@ -18,12 +18,12 @@ import {
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FiBell, FiChevronDown } from "react-icons/fi";
+import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 import {
   ColorModeButton,
   useColorModeValue,
 } from "../components/ui/color-mode";
-import SideBar from "./sidebar";
+import SideBar, { SideNavContent } from "./sidebar";
 
 export default function DashboardLayout({
   children,
@@ -33,22 +33,37 @@ export default function DashboardLayout({
   const session = useSession();
   return (
     <ClientOnly fallback={<Skeleton height="100vh" />}>
-      <TopBar session={session.data as Session} />
-      <Box p={1} minH="100vh" bg={useColorModeValue("#EDF2F7", "gray.900")}>
-        {children}
-      </Box>
+      <HStack gap="0">
+        <Box
+          width={{ base: "0", md: "250px" }}
+          display={{ base: "none", md: "block" }}
+        >
+          <Box minH="100vh">hj</Box>
+        </Box>
+        {/* <Box > */}
+        <Box width="100%">
+          <TopBar session={session.data as Session} />
+          <Box p={1} minH="100vh" bg={useColorModeValue("#EDF2F7", "gray.900")}>
+            {children}
+          </Box>
+        </Box>
+        {/* </Box> */}
+      </HStack>
     </ClientOnly>
   );
 }
 
 function TopBar({ session }: { session: Session | null }) {
   return (
-    <Box bg={"#034F75"}>
+    <Box bg={useColorModeValue("gray.100", "gray.900")}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <SideBar />
+        {/* <SideBar /> */}
+        <IconButton variant="ghost">
+          <FiMenu />
+        </IconButton>
         <Flex alignItems={"center"}>
           <HStack>
-            <ColorModeButton color="white" />
+            <ColorModeButton />
             {/* {session && <NotificationMenu x session={session} />} */}
             {session && <ProfileMenu session={session} />}
           </HStack>
@@ -74,15 +89,11 @@ function ProfileMenu({ session }: { session: Session }) {
               alignItems="flex-start"
               gap={0}
             >
-              <Text fontSize="sm" color="white">
-                {session?.user?.name}
-              </Text>
-              <Text fontSize="xs" color="white">
-                {session?.user?.userid}
-              </Text>
+              <Text fontSize="sm">{session?.user?.name}</Text>
+              <Text fontSize="xs">{session?.user?.userid}</Text>
             </VStack>
           </HStack>
-          <Box display={{ base: "none", md: "flex" }} color="white">
+          <Box display={{ base: "none", md: "flex" }}>
             <FiChevronDown />
           </Box>
         </Button>
